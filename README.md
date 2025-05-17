@@ -8,8 +8,14 @@ If this does not turn out to be the case, I'll attempt to add protections if rea
 ## Quick Start
 ### One Time Setup
 1. Install [python](https://www.python.org/downloads/), I developed with `3.12.2`
-2. Create a Python virtual environment to keep this project's dependencies separate from your machine's dependencies. You can also do this through VSCode: https://code.visualstudio.com/docs/python/tutorial-flask
-3. If not already installed by creating the virtual environment, install python packages with `pip install -r requirements.txt`
+2. Start a PostgreSQL database.
+   - You can either start a [PostgreSQL](https://www.postgresql.org/) server locally
+   - OR you can use [Docker](https://www.docker.com/) to run a PostgreSQL server. Ex. `docker run --name local-postgres -e POSTGRES_PASSWORD=password -d -p 5432:5432 postgres:16`
+3. Create an `.env` file at the top directory and add your Postgres database url.
+   - Ex. `DATABASE_URL = "DATABASE_URL="postgres://postgres:password@localhost:5432/bird_bingo"`
+4. Create a Python virtual environment to keep this project's dependencies separate from your machine's dependencies. You can also do this through VSCode: https://code.visualstudio.com/docs/python/tutorial-flask
+   - This should automatically install the python dependencies from the `requirements.txt` and add environmental variables from `.env`
+   - If updates are made to the `requirements.txt` you'll need to run `pip install -r requirements.txt` to install the new dependencies.
 
 ### Run Project
 1. Use VSCode's `Python Debugger: Flask` configuration. This will launch the app with VSCode debugging and open a web browser.
@@ -25,13 +31,17 @@ If this does not turn out to be the case, I'll attempt to add protections if rea
 1. Any updates to the `main` branch will cause the code to redeploy
 2. Visit https://birdbingo-production.up.railway.app/ to see the app
 
-## Resources used
+## Resources Used
 The following is a list of resources I used to set up the app:
 - Python Flask project in VSCode with debugging: https://code.visualstudio.com/docs/python/tutorial-flask
 - Deployment to Railway: https://docs.railway.com/guides/flask
+- PostgreSQL Database deployment to Railway: https://docs.railway.com/guides/build-a-database-service
+- Postgres ORM, SQL Alchemy: https://www.sqlalchemy.org/
+- Postgres Migrations: https://alembic.sqlalchemy.org/en/latest/index.html
 
 ## Feature Roadmap
 - Connect PostgreSQL Database and deploy
+- Database migration
 - Storage for board state (Single game)
 - Render boards
 - Update boards on card draw
