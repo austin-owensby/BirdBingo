@@ -1,5 +1,9 @@
 # Bird Bingo
-Bird Bingo game for CAPSHER
+Bird Bingo game for CAPSHER.
+
+Note that this is intended as light hearted bingo game with minimal features for now.
+Currently there is not much protection in place against spamming the server because I'm under the assumption this won't be used maliciously.
+If this does not turn out to be the case, I'll attempt to add protections if reasonable, or just remove the site altogether if not.
 
 ## Quick Start
 ### One Time Setup
@@ -19,8 +23,34 @@ Bird Bingo game for CAPSHER
 
 ### Deploy updates
 1. Any updates to the `main` branch will cause the code to redeploy
+2. Visit https://birdbingo-production.up.railway.app/ to see the app
 
 ## Resources used
 The following is a list of resources I used to set up the app:
 - Python Flask project in VSCode with debugging: https://code.visualstudio.com/docs/python/tutorial-flask
 - Deployment to Railway: https://docs.railway.com/guides/flask
+
+## Feature Roadmap
+- Connect PostgreSQL Database and deploy
+- Storage for board state (Single game)
+- Render boards
+- Update boards on card draw
+- Win state
+- Start new game
+- Poll for updates to keep users in sync
+- Update UI with images
+- Ask for name
+- Storage for turn log
+- Record and display user logs
+- Storage for win statistics
+- Update and display win statistics
+- Disclaimer about data usage and storage
+- UI Polish (Material library)
+- Handle different screen sizes/devices
+
+### Future Ideas
+- Multiple Games (Non-Capsher participants)
+- Accounts/Auth
+- Source data/images from internet
+- Spam protection
+- Stress test user inputs
