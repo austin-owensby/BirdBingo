@@ -1,7 +1,21 @@
 from datetime import datetime
+import os
 from sqlalchemy import ARRAY, String
+from sqlalchemy.sql import func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL is None:
+    # If developing locally, follow the README to add it
+    raise Exception("Could not find a DATABASE_URL environmental variable.")
+
+engine = create_engine(DATABASE_URL)
+
+def get_session():
+    return Session(engine)
 class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True)
 
@@ -9,7 +23,7 @@ class DrawHistory(Base):
     __tablename__ = "draw_history"
 
     name: Mapped[str]
-    draw_on: Mapped[datetime]
+    draw_on: Mapped[datetime] = mapped_column(default=func.now())
 
 class Board(Base):
     __tablename__ = "boards"

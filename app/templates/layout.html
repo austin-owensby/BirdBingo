@@ -2,8 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>{% block title %}{% endblock %}</title>
+        <title>Bird Bingo</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
+        <script src="{{ url_for('static', filename='site.js')}}"></script>
     </head>
 
     <body>
@@ -11,6 +12,7 @@
             {% block content %}
             {% endblock %}
             <hr/>
+            <div id="error-message"></div>
             <footer>
                 <p>&copy; 2025</p>
             </footer>
