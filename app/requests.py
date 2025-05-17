@@ -1,7 +1,7 @@
 import http
-from flask import Response
+import json
 from sqlalchemy import select
-from app.database.database_models import DrawHistory, get_session
+from app.database.database_models import Board, DrawHistory, get_session
 from . import app
 from app.birds_helper import birds
 import random
@@ -51,22 +51,70 @@ def get_draw_history():
 
     return draw_history
 
+@app.route("/api/boards", methods=["GET"])
+def get_boards():
+    """Return the list of boards"""
+
+    # Query all boards
+    session = get_session()
+    query = select(Board)
+
+    boards = session.scalars(query).all()
+
+    return [board.to_dict() for board in boards]
+
 @app.route("/api/new-game", methods=["POST"])
 def new_game():
     """Start a new bingo game"""
     # TODO check if game has finished before starting a new one
-    # TODO generate new boards
 
     # Query all draw history
     session = get_session()
-    query = select(DrawHistory)
+    draw_query = select(DrawHistory)
 
-    draw_history = session.scalars(query).all()
+    draw_history = session.scalars(draw_query).all()
 
-    # Delete and save all draw history
+    # Delete all draw history and save
     for draw_history_item in draw_history:
         session.delete(draw_history_item)
 
     session.commit()
-    
-    return Response(status=http.HTTPStatus.NO_CONTENT)
+
+    # Query all boards
+    session = get_session()
+    board_query = select(Board)
+
+    boards = session.scalars(board_query).all()
+
+    # Delete all boards and save
+    for board in boards:
+        session.delete(board)
+
+    session.commit()
+
+    # Create new boards
+    # For now, we're assuming there is only ever these 4 teams.
+    teams = [
+        "Chaos and Affection",
+        "Fire for Justice",
+        "In the Box, Truth",
+        "Learn Forever"
+    ]
+
+    new_boards = []
+
+    for team in teams:
+        random.shuffle(birds)
+        selected_birds = birds[:25]
+
+        new_board = Board(
+            owner = team,
+            grid = [bird['name'] for bird in selected_birds]
+        )
+        new_boards.append(new_board)
+
+    session.add_all(new_boards)
+
+    session.commit()
+
+    return [board.to_dict() for board in new_boards]

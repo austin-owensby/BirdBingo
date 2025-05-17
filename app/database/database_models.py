@@ -16,8 +16,12 @@ engine = create_engine(DATABASE_URL)
 
 def get_session():
     return Session(engine)
+
 class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True)
+
+    def to_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 class DrawHistory(Base):
     __tablename__ = "draw_history"
