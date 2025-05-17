@@ -16,7 +16,3 @@ def run_migrations():
     command.upgrade(alembic_cfg, "head")
 
 run_migrations()
-
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World</p>"

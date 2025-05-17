@@ -37,6 +37,9 @@ Or to downgrade, run `alembic downgrade -1` to go back 1 migration, or replace `
 1. Create an account on [Railway](https://railway.com/) and configure access to the repo
 2. Create a new component of the Railway architecture from the GitHub repo
 3. Go to the setting and choose a setting for Public Networking. I choose to auto generate a domain name.
+4. Create a PostgreSQL Database component
+5. On the GitHub component, add a new environment variable DATABASE_URL and reference the variable from the PostgreSQL component
+6. I choose to turn on serverless to ideally lower costs
 
 ### Deploy updates
 1. Any updates to the `main` branch will cause the code to redeploy
@@ -51,8 +54,6 @@ The following is a list of resources I used to set up the app:
 - Postgres Migrations: https://alembic.sqlalchemy.org/en/latest/index.html
 
 ## Feature Roadmap
-- Connect PostgreSQL Database and deploy
-- Database migration
 - Storage for board state (Single game)
 - Render boards
 - Update boards on card draw
