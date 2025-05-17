@@ -23,6 +23,7 @@ function drawBird() {
         .finally(() => {
             toggleLoadingButtons(false);
             toggleListLoading(false);
+            toggleBoardLoading(false);
         });
 }
 
@@ -46,6 +47,7 @@ function fetchDrawHistory() {
         .finally(() => {
             toggleLoadingButtons(false);
             toggleListLoading(false);
+            toggleBoardLoading(false);
         });
 }
 
@@ -148,7 +150,8 @@ function toggleBoardLoading(loading) {
 
                 for (let j = 0; j < 5; j++) {
                     bird = board.grid[i * 5 + j];
-                    listHTML += `<td>${bird}</td>`;
+                    selected = drawHistory.includes(bird);
+                    listHTML += `<td${selected ? ' class="selected"' : ''}>${bird}</td$>`;
                 }
 
                 listHTML += '</tr>';

@@ -54,9 +54,7 @@ The following is a list of resources I used to set up the app:
 - Postgres Migrations: https://alembic.sqlalchemy.org/en/latest/index.html
 
 ## Feature Roadmap
-- Update boards on card draw
 - Win state
-- Start new game
 - Poll for updates to keep users in sync
 - Update UI with images
 - Ask for name

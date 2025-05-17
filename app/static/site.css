@@ -6,3 +6,28 @@
 #error-message {
     color: red;
 }
+
+#boards {
+    display: flex;
+    overflow: auto;
+
+    table {
+        margin: 1rem;
+        border: 1px solid black;
+
+        caption {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        td {
+            height: 6rem;
+            border: 1px solid black;
+            text-align: center;
+
+            &.selected {
+                background: green;
+            }
+        }
+    }
+}
