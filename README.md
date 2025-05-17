@@ -8,6 +8,10 @@ Bird Bingo game for CAPSHER
 4. Use VSCode's `Python Debugger: Flask` configuration. This will launch the app with VSCode debugging and open a web browser.
    - If not using VSCode, documentation on how to run and debug python Flask apps are readily available online.
 
+## Deployment
+- Create an account on [Railway](https://railway.com/) and configure access to the repo
+
 ## Resources used
 The following is a list of resources I used to set up the app:
 - Python Flask project in VSCode with debugging: https://code.visualstudio.com/docs/python/tutorial-flask
+- Deployment to Railway: https://docs.railway.com/guides/flask
