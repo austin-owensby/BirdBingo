@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8" />
+        <title>Bird Bingo</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
+    </head>
+
+    <body>
+        <a href="/">Home</a>
+        <h1>Info</h1>
+        <h2>What is bird bingo?</h2>
+        <p>Bird bingo is just a simple bingo game played by some of the employees at Capsher related to our Bird Guesser game we also play in person.</p>
+        <p>Unfortunately the desk we were playing bingo on had to be cleared for an incoming intern and so I proposed moving this online for a shared space and also for a fun weekend project.</p>
+        <p>Because this was a personal project made for fun, I'm not planning on putting any money into this. If the app gets spammed or has too much traffic and requires server costs, I'll likely shut it down.</p>
+
+        <h2>I'm a paranoid and nosy developer, what information is being stored about me?</h2>
+        <p>The source code can be found on GitHub here: <a href="https://github.com/austin-owensby/BirdBingo">https://github.com/austin-owensby/BirdBingo</a>. Feel free to make PRs to it and I'll take a look.</p>
+        <p>Why do you ask for my name? Ultimately you can lie if this bothers you. The name is just used to show who drew which bird to keep a sense of community.</p>
+
+        <h2>How long is my name stored and where?</h2>
+        <p>Currently the app is deployed using Railway and the data is stored in a PostgreSQL database. Once a new game is started, your name is removed from the database.</p>
+        <p>The Railway server automatically logs HTTP requests which contain standard information such as client info and your public IP address.</p>
+        <p>If you would like me to clear this data, let me know and I'll work to see what I can do.</p>
+        <p>Locally, your name is stored in your browser's local storage for convenience and can be manually cleared at any time.</p>
+    </body>
+</html>

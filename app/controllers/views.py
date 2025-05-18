@@ -4,6 +4,10 @@ from app.services.logic_service import logic_service
 
 logic_service = logic_service()
 
+@app.route("/info")
+def info():
+    return render_template("info.html")
+
 @app.route("/")
 def app():
     boards = logic_service.fetch_boards()

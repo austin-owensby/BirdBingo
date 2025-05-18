@@ -27,6 +27,7 @@ class DrawHistory(Base):
 
     name: Mapped[str]
     draw_on: Mapped[datetime] = mapped_column(default=func.now())
+    user: Mapped[str] = mapped_column(server_default="Unknown")
 
 class Board(Base):
     __tablename__ = "boards"

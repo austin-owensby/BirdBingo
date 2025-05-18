@@ -30,10 +30,11 @@ class logic_service:
 
         return draw_history
 
-    def create_draw_history(self, name: str):
+    def create_draw_history(self, name: str, user: str):
         """Add a Draw History to the database"""
         new_draw_history = DrawHistory(
-            name = name
+            name = name,
+            user = user
         )
 
         engine = get_engine()
@@ -58,7 +59,7 @@ class logic_service:
 
             session.commit()
 
-    def draw_card(self):
+    def draw_card(self, user: str):
         """Based on drawn birds, randomly draw a new card then add that to the draw history"""
         
         # Query previously drawn birds from the database
@@ -83,7 +84,7 @@ class logic_service:
         # Randomly choose a bird from our options
         drawn_bird: str = random.choice(list(remaining_birds))
 
-        self.create_draw_history(drawn_bird)
+        self.create_draw_history(drawn_bird, user)
 
     def check_win_state(self, boards: list[Board], draw_history: list[DrawHistory]):
         """Check if the game has been won"""

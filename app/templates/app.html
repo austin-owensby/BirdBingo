@@ -7,9 +7,10 @@
     </head>
 
     <body>
+        <a href="/info">Info</a>
         {% if game_won %}
             <form action="/api/new-game" method="post">
-                <button id="new-game">New Game</button>
+                <button>New Game</button>
             </form>
             <h3>
                 {% if winners|length == 1 %}
@@ -25,7 +26,9 @@
             </ul>
         {% else %}
             <form action="/api/draw-bird" method="post">
-                <button id="draw-bird">Draw Bird</button>
+                <label for="name">Name</label>
+                <input required id="name" name="name">
+                <button>Draw Bird</button>
             </form>
         {% endif %}
 
@@ -55,8 +58,22 @@
         <h3>Draw History</h3>
         <ol id="draw-history">
             {% for draw_history_item in draw_history %}
-                <li>{{draw_history_item.name}}</li>
+                <li>{{draw_history_item.name}} drawn by {{draw_history_item.user}}</li>
             {% endfor %}
         </ol>
     </body>
+
+    <script>
+        // Store the user's name in local storage to remember their entered name on future visits
+        const nameInput = document.getElementById('name');
+        existingName = localStorage.getItem('name');
+
+        if (nameInput && existingName) {
+            nameInput.value = existingName;
+        }
+
+        nameInput.addEventListener('input', (event) => {
+            localStorage.setItem('name', event.target.value);
+        });
+    </script>
 </html>
