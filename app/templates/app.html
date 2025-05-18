@@ -1,11 +1,62 @@
-{% extends "layout.html" %}
-{% block content %}
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8" />
+        <title>Bird Bingo</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
+    </head>
 
-<button id="draw-bird">Draw Bird</button>
-<button id="new-game">New Game</button>
+    <body>
+        {% if game_won %}
+            <form action="/api/new-game" method="post">
+                <button id="new-game">New Game</button>
+            </form>
+            <h3>
+                {% if winners|length == 1 %}
+                    Winner:
+                {% else %}
+                    Winners:
+                {% endif %}
+            </h3>
+            <ul>
+                {% for winner in winners %}
+                    <li>{{winner}}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <form action="/api/draw-bird" method="post">
+                <button id="draw-bird">Draw Bird</button>
+            </form>
+        {% endif %}
 
-<div id="boards"></div>
+        <div id="boards">
+            {% for board in boards %}
+            <table>
+                <caption>{{board.owner}}</caption>
+                <tbody>
+                    {% for i in range(5) %}
+                        <tr>
+                            {% for j in range(5) %}
+                                {% if board.grid[i * 5 + j].selected %}
+                                    <td class="selected">
+                                {% else %}
+                                    <td>
+                                {% endif %}
+                                        {{board.grid[i * 5 + j].bird}}
+                                    </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </div>
 
-<ol id="draw-history"></ol>
-
-{% endblock %}
+        <h3>Draw History</h3>
+        <ol id="draw-history">
+            {% for draw_history_item in draw_history %}
+                <li>{{draw_history_item.name}}</li>
+            {% endfor %}
+        </ol>
+    </body>
+</html>

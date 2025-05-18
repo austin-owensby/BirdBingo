@@ -4,7 +4,6 @@ from sqlalchemy import ARRAY, String
 from sqlalchemy.sql import func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 
@@ -14,8 +13,8 @@ if DATABASE_URL is None:
 
 engine = create_engine(DATABASE_URL)
 
-def get_session():
-    return Session(engine)
+def get_engine():
+    return engine
 
 class Base(DeclarativeBase):
     id: Mapped[int] = mapped_column(primary_key=True)

@@ -1,12 +1,3 @@
-.body-content {
-    padding: 5px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-#error-message {
-    color: red;
-}
-
 #boards {
     display: flex;
     overflow: auto;
@@ -30,4 +21,9 @@
             }
         }
     }
+}
+
+#draw-history {
+    overflow: auto;
+    height: 10rem;
 }

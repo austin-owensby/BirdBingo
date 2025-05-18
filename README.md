@@ -54,16 +54,13 @@ The following is a list of resources I used to set up the app:
 - Postgres Migrations: https://alembic.sqlalchemy.org/en/latest/index.html
 
 ## Feature Roadmap
-- Win state
-- Poll for updates to keep users in sync
 - Update UI with images
 - Ask for name
-- Storage for turn log
 - Record and display user logs
 - Storage for win statistics
 - Update and display win statistics
 - Disclaimer about data usage and storage
-- UI Polish (Material library)
+- UI Polish (Material library?)
 - Handle different screen sizes/devices
 
 ### Future Ideas
