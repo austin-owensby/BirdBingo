@@ -1,3 +1,10 @@
+# For now, assume that we will only have these 4 teams
+teams = [
+    "Chaos and Affection",
+    "Fire for Justice",
+    "In the Box, Truth",
+    "Learn Forever"
+]
 
 # For now, this is a hard coded reference, in the future this could be configurable with changes to the logic in code
 birds = [

@@ -1,39 +1,35 @@
-<!DOCTYPE html>
-<html>
-    <head lang="en">
-        <meta charset="utf-8" />
-        <title>Bird Bingo</title>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css')}}" />
-    </head>
-
-    <body>
+{% extends "layout.html" %}
+{% block content %}
+    <nav>
         <a href="/info">Info</a>
-        {% if game_won %}
-            <form action="/api/new-game" method="post">
-                <button>New Game</button>
-            </form>
-            <h3>
-                {% if winners|length == 1 %}
-                    Winner:
-                {% else %}
-                    Winners:
-                {% endif %}
-            </h3>
-            <ul>
-                {% for winner in winners %}
-                    <li>{{winner}}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <form action="/api/draw-bird" method="post">
-                <label for="name">Name</label>
-                <input required id="name" name="name">
-                <button>Draw Bird</button>
-            </form>
-        {% endif %}
+        <a href="/win-stats">Win Stats</a>
+    </nav>
+    {% if game_won %}
+        <form action="/api/new-game" method="post">
+            <button>New Game</button>
+        </form>
+        <h3>
+            {% if winners|length == 1 %}
+                Winner:
+            {% else %}
+                Winners:
+            {% endif %}
+        </h3>
+        <ul>
+            {% for winner in winners %}
+                <li>{{winner}}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <form action="/api/draw-bird" method="post">
+            <label for="name">Name</label>
+            <input required id="name" name="name">
+            <button>Draw Bird</button>
+        </form>
+    {% endif %}
 
-        <div id="boards">
-            {% for board in boards %}
+    <div id="boards">
+        {% for board in boards %}
             <table>
                 <caption>{{board.owner}}</caption>
                 <tbody>
@@ -52,16 +48,15 @@
                     {% endfor %}
                 </tbody>
             </table>
-            {% endfor %}
-        </div>
+        {% endfor %}
+    </div>
 
-        <h3>Draw History</h3>
-        <ol id="draw-history">
-            {% for draw_history_item in draw_history %}
-                <li>{{draw_history_item.name}} drawn by {{draw_history_item.user}}</li>
-            {% endfor %}
-        </ol>
-    </body>
+    <h3>Draw History</h3>
+    <ol id="draw-history">
+        {% for draw_history_item in draw_history %}
+            <li>{{draw_history_item.name}} drawn by {{draw_history_item.user}}</li>
+        {% endfor %}
+    </ol>
 
     <script>
         // Store the user's name in local storage to remember their entered name on future visits
@@ -76,4 +71,4 @@
             localStorage.setItem('name', event.target.value);
         });
     </script>
-</html>
+{% endblock %}

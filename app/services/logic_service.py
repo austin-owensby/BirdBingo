@@ -1,7 +1,7 @@
 import random
-from sqlalchemy import Sequence, select
-from app.database.database_models import Board, DrawHistory, get_engine
-from app.services.birds_helper import birds
+from sqlalchemy import Sequence, desc, select
+from app.database.database_models import Board, DrawHistory, Wins, get_engine
+from app.services.birds_helper import birds, teams
 from sqlalchemy.orm import Session
 
 class logic_service:
@@ -9,12 +9,15 @@ class logic_service:
         return
     
     def fetch_boards(self):
-        """Returns all boards from the database"""
+        """Returns all boards from the database or creates them if missing"""
         engine = get_engine()
         with Session(engine) as session:
             query = select(Board)
 
             boards = session.scalars(query).all()
+
+        if len(boards) == 0:
+            self.create_boards()
 
         return boards
 
@@ -30,6 +33,34 @@ class logic_service:
 
         return draw_history
 
+    def fetch_wins_query(self, session):
+        """Return the list of wins, or create them if missing using a passed in session"""
+        query = select(Wins).order_by(desc(Wins.wins))
+        wins = session.scalars(query).all()
+
+        if len(wins) == 0:
+            # Create wins
+            for team in teams:
+                new_win = Wins(
+                    owner = team,
+                    wins = 0
+                )
+
+                wins.append(new_win)
+
+            session.add_all(wins)
+            session.commit()
+
+        return wins
+
+    def fetch_wins(self):
+        """Return the list of wins, or create them if missing"""
+        engine = get_engine()
+        with Session(engine) as session:
+            wins = self.fetch_wins_query(session)
+
+        return wins
+
     def create_draw_history(self, name: str, user: str):
         """Add a Draw History to the database"""
         new_draw_history = DrawHistory(
@@ -44,7 +75,7 @@ class logic_service:
 
     def clear_data(self, draw_history: Sequence[DrawHistory], boards: Sequence[Board]):
         # Check if there's anything to clear
-        if (len(draw_history) + len(boards)) == 0:
+        if len(draw_history) == 0:
             return
         
         # Delete all draw history
@@ -90,7 +121,7 @@ class logic_service:
         """Check if the game has been won"""
 
         # Check if there's enough data for a win
-        if len(boards) == 0 or len(draw_history) < 5:
+        if len(draw_history) < 5:
             return []
         
         # 5 horizontal wins, 5 vertical wins, 2 diagonal wins
@@ -133,14 +164,6 @@ class logic_service:
 
     def create_boards(self):
         """Generate a new list of boards"""
-        # For now, we're assuming there is only ever these 4 teams.
-        teams = [
-            "Chaos and Affection",
-            "Fire for Justice",
-            "In the Box, Truth",
-            "Learn Forever"
-        ]
-
         new_boards = []
 
         for team in teams:
@@ -167,8 +190,30 @@ class logic_service:
         winners = self.check_win_state(boards, draw_history)
         game_won = len(winners) > 0
 
-        if not (game_won or len(boards) == 0):
+        if not game_won:
             raise Exception('Finish the existing game before starting a new one')
         
         self.clear_data(draw_history, boards)
-        self.create_boards()
+
+    def check_and_record_win(self):
+        """Check if we've won, and if so, record the win statistic"""
+        draw_history = self.fetch_draw_history()
+        boards = self.fetch_boards()
+
+        winners = self.check_win_state(boards, draw_history)
+
+        # Check if we have a winner
+        if len(winners) > 0:
+            wins = self.fetch_wins()
+
+            # Record the win
+            engine = get_engine()
+            with Session(engine) as session:
+                wins = self.fetch_wins_query(session)
+
+                # Update the win count
+                for win in wins:
+                    if win.owner in winners:
+                        win.wins = win.wins + 1
+
+                session.commit()

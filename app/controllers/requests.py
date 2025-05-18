@@ -10,6 +10,8 @@ def draw_card():
     name = request.form['name']
 
     logic_service.draw_card(name)
+    logic_service.check_and_record_win()
+
     return redirect("/", code=302)
 
 @app.route("/api/new-game", methods=["POST"])

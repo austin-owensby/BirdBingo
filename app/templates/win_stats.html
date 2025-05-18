@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+    <nav>
+        <a href="/">Home</a>
+        <a href="/info">Info</a>
+    </nav>
+    <ol>
+        {% for win in wins %}
+            <li>{{win.owner}}:{{win.wins}}</li>
+        {% endfor %}
+    </ol>
+{% endblock %}

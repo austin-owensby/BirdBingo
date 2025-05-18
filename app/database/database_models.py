@@ -34,3 +34,9 @@ class Board(Base):
 
     owner: Mapped[str]
     grid: Mapped[list[str]] = mapped_column(ARRAY(String))
+
+class Wins(Base):
+    __tablename__ = "wins"
+
+    owner: Mapped[str]
+    wins: Mapped[int]

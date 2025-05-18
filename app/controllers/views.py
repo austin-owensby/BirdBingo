@@ -4,12 +4,8 @@ from app.services.logic_service import logic_service
 
 logic_service = logic_service()
 
-@app.route("/info")
-def info():
-    return render_template("info.html")
-
 @app.route("/")
-def app():
+def home():
     boards = logic_service.fetch_boards()
     draw_history = logic_service.fetch_draw_history()
     winners = logic_service.check_win_state(boards, draw_history)
@@ -26,3 +22,12 @@ def app():
         board_models.append(board_model)
 
     return render_template("app.html", boards=board_models, draw_history=draw_history, game_won=game_won, winners=winners)
+
+@app.route("/info")
+def info():
+    return render_template("info.html")
+
+@app.route("/win-stats")
+def win_stats():
+    wins = logic_service.fetch_wins()
+    return render_template("win_stats.html", wins=wins)

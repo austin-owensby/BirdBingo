@@ -55,8 +55,6 @@ The following is a list of resources I used to set up the app:
 
 ## Feature Roadmap
 - Update UI with images
-- Storage for win statistics
-- Update and display win statistics
 - UI Polish (Material library?)
 - Handle different screen sizes/devices
 
