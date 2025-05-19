@@ -61,8 +61,10 @@ The following is a list of resources I used to set up the app:
 
 ## Feature Roadmap
 - Update UI with images
-- UI Polish (Material library?)
+- UI Polish
+- Favicon
 - Handle different screen sizes/devices
+- Accessibility
 
 ### Future Ideas
 - Multiple Games (Non-Capsher participants)
