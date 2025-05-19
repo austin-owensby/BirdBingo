@@ -11,13 +11,13 @@ class logic_service:
     def fetch_boards(self):
         """Returns all boards from the database or creates them if missing"""
         engine = get_engine()
-        with Session(engine) as session:
+        with Session(engine, expire_on_commit=False) as session:
             query = select(Board)
 
             boards = session.scalars(query).all()
 
         if len(boards) == 0:
-            self.create_boards()
+            boards = self.create_boards()
 
         return boards
 
@@ -26,7 +26,7 @@ class logic_service:
 
         # Query all draw history
         engine = get_engine()
-        with Session(engine) as session:
+        with Session(engine, expire_on_commit=False) as session:
             query = select(DrawHistory)
 
             draw_history = session.scalars(query).all()
@@ -56,7 +56,7 @@ class logic_service:
     def fetch_wins(self):
         """Return the list of wins, or create them if missing"""
         engine = get_engine()
-        with Session(engine) as session:
+        with Session(engine, expire_on_commit=False) as session:
             wins = self.fetch_wins_query(session)
 
         return wins
@@ -69,7 +69,7 @@ class logic_service:
         )
 
         engine = get_engine()
-        with Session(engine) as session:
+        with Session(engine, expire_on_commit=False) as session:
             session.add(new_draw_history)
             session.commit()
 
@@ -80,7 +80,7 @@ class logic_service:
         
         # Delete all draw history
         engine = get_engine()
-        with Session(engine) as session:
+        with Session(engine, expire_on_commit=False) as session:
             for draw_history_item in draw_history:
                 session.delete(draw_history_item)
 
@@ -177,9 +177,11 @@ class logic_service:
             new_boards.append(new_board)
 
         engine = get_engine()
-        with Session(engine) as session:
+        with Session(engine, expire_on_commit=False) as session:
             session.add_all(new_boards)
             session.commit()
+
+        return new_boards
 
     def new_game(self):
         """Starts a new game of bingo"""
@@ -208,7 +210,7 @@ class logic_service:
 
             # Record the win
             engine = get_engine()
-            with Session(engine) as session:
+            with Session(engine, expire_on_commit=False) as session:
                 wins = self.fetch_wins_query(session)
 
                 # Update the win count
