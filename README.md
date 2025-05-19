@@ -5,6 +5,8 @@ Note that this is intended as light hearted bingo game with minimal features for
 Currently there is not much protection in place against spamming the server because I'm under the assumption this won't be used maliciously.
 If this does not turn out to be the case, I'll attempt to add protections if reasonable, or just remove the site altogether if not.
 
+The production site is deployed here: https://bird-bingo.onrender.com/
+
 ## Quick Start
 ### One Time Setup
 1. Install [python](https://www.python.org/downloads/), I developed with `3.12.2`
@@ -34,22 +36,26 @@ Or to downgrade, run `alembic downgrade -1` to go back 1 migration, or replace `
 
 ## Deployment
 ### One Time Setup
-1. Create an account on [Railway](https://railway.com/) and configure access to the repo
-2. Create a new component of the Railway architecture from the GitHub repo
-3. Go to the setting and choose a setting for Public Networking. I choose to auto generate a domain name.
-4. Create a PostgreSQL Database component
-5. On the GitHub component, add a new environment variable DATABASE_URL and reference the variable from the PostgreSQL component
-6. I choose to turn on serverless to ideally lower costs
+1. Create an account on [Render](https://render.com/)
+2. Create a new project
+3. Create a new PostgreSQL service on the project.
+   - Switch to the Free Tier
+   - All other default settings are fine
+4. Create a new Web Service service on the project
+   - Connect the GitHub repo
+   - Update the start command to `gunicorn app.webapp:app`
+   - Switch to the Free Tier
+   - Create a new environment variable `DATABASE_URL` and copy the environment variable from the PostgreSQL service
+   - All other default settings are fine
 
 ### Deploy updates
 1. Any updates to the `main` branch will cause the code to redeploy
-2. Visit https://birdbingo-production.up.railway.app/ to see the app
+2. Visit https://bird-bingo.onrender.com/ to see the app
 
 ## Resources Used
 The following is a list of resources I used to set up the app:
 - Python Flask project in VSCode with debugging: https://code.visualstudio.com/docs/python/tutorial-flask
-- Deployment to Railway: https://docs.railway.com/guides/flask
-- PostgreSQL Database deployment to Railway: https://docs.railway.com/guides/build-a-database-service
+- Deployment to Render: https://render.com/
 - Postgres ORM, SQL Alchemy: https://www.sqlalchemy.org/
 - Postgres Migrations: https://alembic.sqlalchemy.org/en/latest/index.html
 
